@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../api";
 import { UserCard } from "../UserCard/UserCard";
-import { UserList } from "./UsersList.styled";
+import { UserList, Button } from "./UsersList.styled";
 
 export const UsersList = () => {
   const [users, setUsers] = useState([]);
@@ -30,7 +30,7 @@ export const UsersList = () => {
   };
 
   return (
-    <div>
+    <>
       <UserList>
         {users &&
           users.map((user) => {
@@ -38,10 +38,10 @@ export const UsersList = () => {
           })}
       </UserList>
       {page < 4 && (
-        <button type="button" onClick={onLoadMore}>
+        <Button type="button" onClick={onLoadMore}>
           load more
-        </button>
+        </Button>
       )}
-    </div>
+    </>
   );
 };
