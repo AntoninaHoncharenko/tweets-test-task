@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   UserItem,
   Wrap,
@@ -10,19 +10,32 @@ import {
 } from "./UserCard.styled";
 
 export const UserCard = ({ userData }) => {
-  const { avatar, tweets, followers } = userData;
+  const { id, avatar, tweets, followers } = userData;
 
-  const [followersNumber, setFollowersNumber] = useState(followers);
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [followersNumber, setFollowersNumber] = useState(
+    JSON.parse(localStorage.getItem(`followers ${id}`)) || followers
+  );
+  const [isFollowing, setIsFollowing] = useState(
+    JSON.parse(localStorage.getItem(`isFollowing ${id}`)) || false
+  );
 
-  const changeFollow = () => {
-    if (isFollowing) {
-      setFollowersNumber(followersNumber - 1);
+  const changeFollow = (id) => {
+    if (!isFollowing) {
+      setFollowersNumber((prevState) => {
+        localStorage.setItem(`followers ${id}`, prevState + 1);
+        return prevState + 1;
+      });
     } else {
-      setFollowersNumber(followersNumber + 1);
+      setFollowersNumber((prevState) => {
+        localStorage.setItem(`followers ${id}`, prevState - 1);
+        return prevState - 1;
+      });
     }
 
-    setIsFollowing(!isFollowing);
+    setIsFollowing((prevState) => {
+      localStorage.setItem(`isFollowing ${id}`, !prevState);
+      return !prevState;
+    });
   };
 
   return (
@@ -35,7 +48,11 @@ export const UserCard = ({ userData }) => {
           <Text>{tweets} tweets</Text>
           <Text>{followersNumber} followers</Text>
         </TextWrap>
-        <Button type="button" onClick={changeFollow} isFollowing={isFollowing}>
+        <Button
+          type="button"
+          onClick={() => changeFollow(id)}
+          isFollowing={isFollowing}
+        >
           {isFollowing ? "Following" : "Follow"}
         </Button>
       </Wrap>

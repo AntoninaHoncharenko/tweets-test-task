@@ -5,27 +5,43 @@ import { UserList } from "./UsersList.styled";
 
 export const UsersList = () => {
   const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function getUsers() {
       try {
-        const data = await fetchUsers();
+        const data = await fetchUsers(page);
         setUsers(data);
       } catch (error) {
         console.log(error);
       }
     }
     getUsers();
-  }, []);
+  }, [page]);
 
-  console.log(users);
+  const onLoadMore = async () => {
+    setPage((prevState) => prevState + 1);
+    try {
+      const data = await fetchUsers(page);
+      setUsers((prevState) => [...prevState, ...data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <UserList>
-      {users &&
-        users.map((user) => {
-          return <UserCard key={user.id} userData={user} />;
-        })}
-    </UserList>
+    <div>
+      <UserList>
+        {users &&
+          users.map((user) => {
+            return <UserCard key={user.id} userData={user} />;
+          })}
+      </UserList>
+      {page < 4 && (
+        <button type="button" onClick={onLoadMore}>
+          load more
+        </button>
+      )}
+    </div>
   );
 };

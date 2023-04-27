@@ -92,10 +92,18 @@ export const Button = styled.button`
   box-shadow: 0px 3.43693px 3.43693px rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 10.3108px;
+  cursor: pointer;
 
   font-weight: 600;
   font-size: 18px;
   line-height: 1.2;
   text-transform: uppercase;
   color: #373737;
+
+  transition: 250ms linear;
+
+  :hover {
+    transform: translateY(+3%);
+    box-shadow: 0px 11px 42px -2px rgba(66, 68, 90, 1);
+  }
 `;
