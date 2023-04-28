@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   UserItem,
   Wrap,
@@ -19,24 +19,19 @@ export const UserCard = ({ userData, changeFollowing }) => {
     JSON.parse(localStorage.getItem(`isFollowing ${id}`)) || false
   );
 
-  useEffect(() => {
-    localStorage.setItem(`followers ${id}`, followersNumber);
-    localStorage.setItem(`isFollowing ${id}`, isFollowing);
-  }, [followersNumber, isFollowing, id]);
-
   const changeFollow = (id) => {
     if (!isFollowing) {
       setFollowersNumber((prevState) => {
         localStorage.setItem(`followers ${id}`, prevState + 1);
         return prevState + 1;
       });
-      changeFollowing(id, "following");
+      changeFollowing(id, true);
     } else {
       setFollowersNumber((prevState) => {
         localStorage.setItem(`followers ${id}`, prevState - 1);
         return prevState - 1;
       });
-      changeFollowing(id, "follow");
+      changeFollowing(id, false);
     }
 
     setIsFollowing((prevState) => {

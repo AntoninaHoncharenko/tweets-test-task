@@ -6,7 +6,7 @@ export const Filter = ({ changeFilter }) => {
       <Text htmlFor="follow">Filter</Text>
       <Select id="follow" name="follow" onChange={changeFilter}>
         <option value="all" selected>
-          All
+          Show all
         </option>
         <option value="follow">Follow</option>
         <option value="following">Following</option>

@@ -9,7 +9,6 @@ export const Wrap = styled.div`
   justify-content: center;
   border-radius: 10.3108px;
   background-color: #5cd3a8;
-  cursor: pointer;
 `;
 
 export const Text = styled.label`
@@ -25,4 +24,5 @@ export const Select = styled.select`
   font-size: 18px;
   padding: 4px 12px;
   outline: none;
+  cursor: pointer;
 `;

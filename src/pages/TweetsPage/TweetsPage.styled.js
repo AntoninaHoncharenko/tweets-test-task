@@ -53,3 +53,11 @@ export const Button = styled.button`
     box-shadow: inset 0px 0px 29px -16px rgba(66, 68, 90, 1);
   }
 `;
+
+export const ErrorText = styled.p`
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  color: brown;
+  text-align: center;
+`;
