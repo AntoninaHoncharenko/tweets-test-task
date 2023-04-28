@@ -1,23 +1,13 @@
 import styled from "styled-components";
 import backgroundImage from "../../assets/picture.png";
+import logo from "../../assets/logo.png";
 
 export const UserItem = styled.li`
   width: 380px;
   height: 460px;
-  background: linear-gradient(
-    114.99deg,
-    #471ca9 -0.99%,
-    #5736a3 54.28%,
-    #4b2a99 78.99%
-  );
-  /* background-image: linear-gradient(
-      114.99deg,
-      #471ca9 -0.99%,
-      #5736a3 54.28%,
-      #4b2a99 78.99%
-    ),
-    url(${backgroundImage});
-  background-repeat: no-repeat; */
+  background: url(${backgroundImage}) 36px 28px, url(${logo}) 20px 20px,
+    linear-gradient(114.99deg, #471ca9 -0.99%, #5736a3 54.28%, #4b2a99 78.99%);
+  background-repeat: no-repeat;
   box-shadow: -2.5777px 6.87386px 20.6216px rgba(0, 0, 0, 0.23);
   border-radius: 20px;
   position: relative;

@@ -9,7 +9,7 @@ import {
   Button,
 } from "./UserCard.styled";
 
-export const UserCard = ({ userData }) => {
+export const UserCard = ({ userData, changeFollowing }) => {
   const { id, avatar, tweets, followers } = userData;
 
   const [followersNumber, setFollowersNumber] = useState(
@@ -19,17 +19,24 @@ export const UserCard = ({ userData }) => {
     JSON.parse(localStorage.getItem(`isFollowing ${id}`)) || false
   );
 
+  useEffect(() => {
+    localStorage.setItem(`followers ${id}`, followersNumber);
+    localStorage.setItem(`isFollowing ${id}`, isFollowing);
+  }, [followersNumber, isFollowing, id]);
+
   const changeFollow = (id) => {
     if (!isFollowing) {
       setFollowersNumber((prevState) => {
         localStorage.setItem(`followers ${id}`, prevState + 1);
         return prevState + 1;
       });
+      changeFollowing(id, "following");
     } else {
       setFollowersNumber((prevState) => {
         localStorage.setItem(`followers ${id}`, prevState - 1);
         return prevState - 1;
       });
+      changeFollowing(id, "follow");
     }
 
     setIsFollowing((prevState) => {
@@ -37,6 +44,10 @@ export const UserCard = ({ userData }) => {
       return !prevState;
     });
   };
+
+  const updatedFollowersNumber = followersNumber
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return (
     <UserItem>
@@ -46,7 +57,7 @@ export const UserCard = ({ userData }) => {
         </ImageWrap>
         <TextWrap>
           <Text>{tweets} tweets</Text>
-          <Text>{followersNumber} followers</Text>
+          <Text>{updatedFollowersNumber} followers</Text>
         </TextWrap>
         <Button
           type="button"
