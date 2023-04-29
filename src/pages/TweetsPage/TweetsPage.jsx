@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../../api";
+import toast from "react-hot-toast";
 import { UsersList } from "../../components/UsersList/UsersList";
+import { Loader } from "../../components/Loader/Loader";
 import { Filter } from "../../components/Filter/Filter";
 import { BsBoxArrowLeft } from "react-icons/bs";
 import {
@@ -19,6 +21,7 @@ export const TweetsPage = () => {
     JSON.parse(localStorage.getItem("page")) || 1
   );
   const [filterValue, setFilterValue] = useState("all");
+  const [isLoading, setIsloading] = useState(false);
 
   const updateUser = (data) => {
     return data.map((user) => ({
@@ -30,6 +33,8 @@ export const TweetsPage = () => {
   useEffect(() => {
     async function getUsers() {
       try {
+        setIsloading(true);
+
         const data = await fetchUsers(1);
         const updatedUsers = updateUser(data);
         const localStorageUsers = JSON.parse(localStorage.getItem("users"));
@@ -42,6 +47,9 @@ export const TweetsPage = () => {
         }
       } catch (error) {
         console.log(error);
+        toast.error("Something went wrong... Please reload page");
+      } finally {
+        setIsloading(false);
       }
     }
     getUsers();
@@ -49,6 +57,8 @@ export const TweetsPage = () => {
 
   const onLoadMore = async () => {
     try {
+      setIsloading(true);
+
       const data = await fetchUsers(page + 1);
       const updatedUsers = updateUser(data);
 
@@ -62,6 +72,9 @@ export const TweetsPage = () => {
       localStorage.setItem("page", JSON.stringify(page + 1));
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong... Please reload page");
+    } finally {
+      setIsloading(false);
     }
   };
 
@@ -114,11 +127,12 @@ export const TweetsPage = () => {
       {filteredUsers.length < 1 && filterValue === "following" && (
         <ErrorText>No following users</ErrorText>
       )}
-      {filterValue === "all" && page < 4 && users.length < 12 && (
+      {filterValue === "all" && page < 4 && users.length < 12 && !isLoading && (
         <Button type="button" onClick={onLoadMore}>
           load more
         </Button>
       )}
+      {isLoading && <Loader />}
     </Section>
   );
 };

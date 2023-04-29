@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Section = styled.section`
-  padding: 30px;
+  padding: 30px 30px 60px;
 `;
 
 export const LinkToHome = styled(Link)`
