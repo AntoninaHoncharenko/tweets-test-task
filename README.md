@@ -35,11 +35,7 @@ Builds the app and previews the production build locally.
 
 The Tweets App is built using the React and additiona libraries:
 
-axios
-styled-components
-react-hot-toast
-react-icons
-react-loader-spinner
+axios, styled-components, react-hot-toast, react-icons, react-loader-spinner
 
 ## Functionality
 
