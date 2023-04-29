@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   UserItem,
   Wrap,
@@ -10,37 +9,17 @@ import {
 } from "./UserCard.styled";
 
 export const UserCard = ({ userData, changeFollowing }) => {
-  const { id, avatar, tweets, followers } = userData;
-
-  const [followersNumber, setFollowersNumber] = useState(
-    JSON.parse(localStorage.getItem(`followers ${id}`)) || followers
-  );
-  const [isFollowing, setIsFollowing] = useState(
-    JSON.parse(localStorage.getItem(`isFollowing ${id}`)) || false
-  );
+  const { id, avatar, tweets, followers, isFollow } = userData;
 
   const changeFollow = (id) => {
-    if (!isFollowing) {
-      setFollowersNumber((prevState) => {
-        localStorage.setItem(`followers ${id}`, prevState + 1);
-        return prevState + 1;
-      });
-      changeFollowing(id, true);
+    if (!isFollow) {
+      changeFollowing(id, true, "plus");
     } else {
-      setFollowersNumber((prevState) => {
-        localStorage.setItem(`followers ${id}`, prevState - 1);
-        return prevState - 1;
-      });
-      changeFollowing(id, false);
+      changeFollowing(id, false, "minus");
     }
-
-    setIsFollowing((prevState) => {
-      localStorage.setItem(`isFollowing ${id}`, !prevState);
-      return !prevState;
-    });
   };
 
-  const updatedFollowersNumber = followersNumber
+  const updatedFollowersNumber = followers
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
@@ -57,9 +36,9 @@ export const UserCard = ({ userData, changeFollowing }) => {
         <Button
           type="button"
           onClick={() => changeFollow(id)}
-          isFollowing={isFollowing}
+          isFollow={isFollow}
         >
-          {isFollowing ? "Following" : "Follow"}
+          {isFollow ? "Following" : "Follow"}
         </Button>
       </Wrap>
     </UserItem>

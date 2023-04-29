@@ -12,25 +12,28 @@ import {
 } from "./TweetsPage.styled";
 
 export const TweetsPage = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(
+    JSON.parse(localStorage.getItem("users")) || []
+  );
   const [page, setPage] = useState(
     JSON.parse(localStorage.getItem("page")) || 1
   );
-  // const [page, setPage] = useState(1);
   const [filterValue, setFilterValue] = useState("all");
+
+  const updateUser = (data) => {
+    return data.map((user) => ({
+      ...user,
+      isFollow: user.isFollow ? user.isFollow : false,
+    }));
+  };
 
   useEffect(() => {
     async function getUsers() {
       try {
         const data = await fetchUsers(1);
-        const updatedUsers = data.map((user) => ({
-          ...user,
-          following: user.following ? user.following : false,
-        }));
-        // setUsers(updatedUsers);
-        // localStorage.setItem("users", JSON.stringify(updatedUsers));
-        // не важливо
+        const updatedUsers = updateUser(data);
         const localStorageUsers = JSON.parse(localStorage.getItem("users"));
+
         if (localStorageUsers) {
           setUsers(localStorageUsers);
         } else {
@@ -49,15 +52,14 @@ export const TweetsPage = () => {
   const onLoadMore = async () => {
     try {
       const data = await fetchUsers(page + 1);
-      const updatedUsers = data.map((user) => ({
-        ...user,
-        following: user.following ? user.following : false,
-      }));
+      const updatedUsers = updateUser(data);
+
       setUsers((prevState) => [...prevState, ...updatedUsers]);
       localStorage.setItem(
         "users",
         JSON.stringify([...users, ...updatedUsers])
       );
+
       setPage((prevState) => prevState + 1);
       localStorage.setItem("page", JSON.stringify(page + 1));
     } catch (error) {
@@ -69,19 +71,14 @@ export const TweetsPage = () => {
     setFilterValue(event.target.value);
   };
 
-  // const changeFollowing = (id, value) => {
-  //   setUsers((prevState) =>
-  //     prevState.map((user) =>
-  //       user.id === id ? { ...user, following: value } : user
-  //     )
-  //   );
-  // };
-  // не важливо
-
-  const changeFollowing = (id, value) => {
+  const changeFollowing = (id, value, count) => {
     const updatedUsers = users.map((user) => {
       if (user.id === id) {
-        return { ...user, following: value };
+        return {
+          ...user,
+          isFollow: value,
+          followers: count === "plus" ? user.followers + 1 : user.followers - 1,
+        };
       } else {
         return user;
       }
@@ -95,9 +92,9 @@ export const TweetsPage = () => {
     if (filterValue === "all") {
       return user;
     } else if (filterValue === "follow") {
-      return user.following === false;
+      return user.isFollow === false;
     } else if (filterValue === "following") {
-      return user.following === true;
+      return user.isFollow === true;
     }
   });
 

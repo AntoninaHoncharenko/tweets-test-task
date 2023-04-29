@@ -5,7 +5,7 @@ export const Filter = ({ changeFilter }) => {
     <Wrap>
       <Text htmlFor="follow">Filter</Text>
       <Select id="follow" name="follow" onChange={changeFilter}>
-        <option value="all" selected>
+        <option value="all" defaultValue>
           Show all
         </option>
         <option value="follow">Follow</option>
