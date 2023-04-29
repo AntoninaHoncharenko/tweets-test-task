@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { UserCard } from "../UserCard/UserCard";
 import { UserList } from "./UsersList.styled";
 
@@ -18,4 +19,9 @@ export const UsersList = ({ users, changeFollowing }) => {
       </UserList>
     </>
   );
+};
+
+UsersList.propTypes = {
+  users: PropTypes.array.isRequired,
+  changeFollowing: PropTypes.func.isRequired,
 };

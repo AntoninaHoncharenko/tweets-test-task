@@ -47,8 +47,6 @@ export const TweetsPage = () => {
     getUsers();
   }, []);
 
-  console.log(page);
-
   const onLoadMore = async () => {
     try {
       const data = await fetchUsers(page + 1);
@@ -98,9 +96,13 @@ export const TweetsPage = () => {
     }
   });
 
+  const reset = () => {
+    localStorage.clear();
+  };
+
   return (
     <Section>
-      <LinkToHome to="/home">
+      <LinkToHome to="/home" onClick={reset}>
         <BsBoxArrowLeft size="26" />
         <Text>Back to Home</Text>
       </LinkToHome>

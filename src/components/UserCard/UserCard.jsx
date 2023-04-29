@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import {
   UserItem,
   Wrap,
@@ -43,4 +44,15 @@ export const UserCard = ({ userData, changeFollowing }) => {
       </Wrap>
     </UserItem>
   );
+};
+
+UserCard.propTypes = {
+  userData: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    avatar: PropTypes.string.isRequired,
+    tweets: PropTypes.number.isRequired,
+    followers: PropTypes.number.isRequired,
+    isFollow: PropTypes.bool,
+  }),
+  changeFollowing: PropTypes.func.isRequired,
 };

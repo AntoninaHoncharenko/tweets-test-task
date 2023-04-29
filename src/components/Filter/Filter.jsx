@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Wrap, Text, Select } from "./Filter.styled";
 
 export const Filter = ({ changeFilter }) => {
@@ -14,3 +15,5 @@ export const Filter = ({ changeFilter }) => {
     </Wrap>
   );
 };
+
+Filter.propTypes = { changeFilter: PropTypes.func.isRequired };
