@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const Section = styled.section`
+  width: 1240px;
+  margin: 0 auto;
   padding: 30px 30px 60px;
 `;
 
@@ -11,7 +13,6 @@ export const LinkToHome = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 224px;
   margin-bottom: 30px;
   background-color: #ebd8ff;
   border-radius: 32px;
